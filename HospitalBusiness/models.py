@@ -34,7 +34,7 @@ class VisitCard(models.Model):
 	telphone = models.BigIntegerField(verbose_name='手机号码')
 
 	def __str__(self):
-		return self.name 
+		return self.real_name 
 
 	class Meta:
 		verbose_name = '就诊卡管理'
