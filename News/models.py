@@ -18,8 +18,11 @@ class News(models.Model):
 
 #轮播图模型
 class CarouselMap(models.Model):
+	theme = models.CharField(verbose_name='轮播图片主题',max_length=100)
 	image = models.ImageField(verbose_name='轮播图片',upload_to='CarouselMap/%Y/%m/%d/')
 
+	def __str__(self):
+		return self.theme
 
 	class Meta:
 		verbose_name = '轮播图'
