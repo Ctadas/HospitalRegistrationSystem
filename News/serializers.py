@@ -4,10 +4,10 @@ from News.models import News,CarouselMap
 class NewsSerializers(serializers.HyperlinkedModelSerializer):
 	class Meta:
 		model = News
-		fields = ('title','content','image','source','release_time')
+		fields = ('id','title','content','image','source','release_time')
 
 class CarouselMapSerializers(serializers.HyperlinkedModelSerializer):
 	class Meta:
 		model = CarouselMap
-		fields = ('theme','image')
+		fields = ('id','theme','image')
 
