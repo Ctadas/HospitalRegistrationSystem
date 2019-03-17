@@ -26,16 +26,4 @@ class Department(models.Model):
 		verbose_name = '科室管理'
 		verbose_name_plural = "科室管理"
 
-#就诊卡模型
-class VisitCard(models.Model):
-	user = models.ManyToManyField(PatientInformation)
-	real_name = models.CharField(verbose_name='真实姓名',max_length=50)
-	id_card = models.CharField(verbose_name='身份证号码',max_length=18)
-	telphone = models.BigIntegerField(verbose_name='手机号码')
 
-	def __str__(self):
-		return self.real_name 
-
-	class Meta:
-		verbose_name = '就诊卡管理'
-		verbose_name_plural = "就诊卡管理"
