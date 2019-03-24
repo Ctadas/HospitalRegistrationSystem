@@ -2,9 +2,11 @@ from django.db import models
 
 # Create your models here.
 #性别选择
-gender_choices = (
-	('man','男'),
-	('woman','女')
+job_title = (
+	('主任医师','主任医师'),
+	('副主任医师','副主任医师'),
+	('主治医师','主治医师'),
+	('医师','医师')
 )
 
 #上传头像目录定制
@@ -28,7 +30,7 @@ class VisitCard(models.Model):
 #医生信息模型
 class DoctorInformation(models.Model):
 	name = models.CharField(verbose_name='医生姓名',max_length=50)
-	gender = models.CharField(verbose_name='医生性别',max_length=10,choices=gender_choices)
+	job_title = models.CharField(verbose_name='医生职称',max_length=30,choices=job_title)
 	doctor_introduction = models.TextField(verbose_name='医生介绍',max_length=500)
 	avatar = models.ImageField(verbose_name='医生头像',upload_to=upload_to)
 

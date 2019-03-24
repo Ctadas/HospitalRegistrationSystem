@@ -30,11 +30,17 @@ def getLoginCode(request):
 
 	return_request = httprequests.get(url,params)
 
-	p,created = PatientInformation.objects.update_or_create(
-		openid = return_request.json()['openid'],
-		session_key = return_request.json()['session_key'],
-		defaults={'openid': return_request.json()['openid']},
-	)
+	openid = return_request.json()['openid']
+	session_key = return_request.json()['session_key']
+
+	p  = PatientInformation.objects.filter(openid = openid)
+
+	if p.exists():
+		p  = PatientInformation.objects.get(openid = openid)
+		p.session_key = session_key
+		p.save()
+	else:
+		p  = PatientInformation.objects.create(openid = openid,session_key = session_key)
 
 	print(return_request.json()['openid'])
 
