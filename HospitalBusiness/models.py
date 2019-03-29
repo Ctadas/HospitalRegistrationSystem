@@ -69,3 +69,65 @@ class RegisteredRecord(models.Model):
 		doctors_dict['name'] = self.doctors.name
 		doctors_dict['job_title'] = self.doctors.job_title
 		return doctors_dict
+
+#缴费项目管理
+class PaymentItem(models.Model):
+	name = models.CharField(verbose_name="项目名称",max_length=100)
+	price = models.FloatField(verbose_name="项目金额",max_length=50)
+
+	def __str__(self):
+		return self.name  
+
+	class Meta:
+		verbose_name = '缴费项目管理'
+		verbose_name_plural = "缴费项目管理"
+
+class Payment(models.Model):
+	visit_card = models.ForeignKey(VisitCard,on_delete=models.CASCADE,verbose_name="患者就诊卡")
+	payment_item = models.ManyToManyField(PaymentItem)
+
+	def __str__(self):
+		return self.visit_card.real_name  
+
+	class Meta:
+		verbose_name = '患者缴费管理'
+		verbose_name_plural = "患者缴费管理"
+
+	@property
+	def visit_card_obj(self):
+		visit_card_dict = {}
+		visit_card_dict['real_name'] = self.visit_card.real_name
+		visit_card_dict['id_card'] = self.visit_card.id_card
+		visit_card_dict['id_type'] = self.visit_card.id_type
+		visit_card_dict['telphone'] = self.visit_card.telphone
+		return visit_card_dict
+
+class Report(models.Model):
+	visit_card = models.ForeignKey(VisitCard,on_delete=models.CASCADE,verbose_name="患者就诊卡")
+	report_content = models.TextField(verbose_name='报告内容',max_length=500)
+	doctors = models.ForeignKey(DoctorInformation,on_delete=models.CASCADE,verbose_name='就诊医生')
+	submission_time = models.DateField(auto_now_add=True,verbose_name = "报告生成时间")
+
+
+	def __str__(self):
+		return self.visit_card.real_name  
+
+	class Meta:
+		verbose_name = '就诊报告管理'
+		verbose_name_plural = "就诊报告管理"
+
+	@property
+	def visit_card_obj(self):
+		visit_card_dict = {}
+		visit_card_dict['real_name'] = self.visit_card.real_name
+		visit_card_dict['id_card'] = self.visit_card.id_card
+		visit_card_dict['id_type'] = self.visit_card.id_type
+		visit_card_dict['telphone'] = self.visit_card.telphone
+		return visit_card_dict
+
+	@property
+	def doctors_obj(self):
+		doctors_dict = {}
+		doctors_dict['name'] = self.doctors.name
+		doctors_dict['job_title'] = self.doctors.job_title
+		return doctors_dict

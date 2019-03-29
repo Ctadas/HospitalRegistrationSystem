@@ -4,8 +4,8 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.parsers import JSONParser
 from rest_framework.renderers import JSONRenderer
-from HospitalBusiness.models import Department,Shift,RegisteredRecord
-from HospitalBusiness.serializers import DepartmentSerializers,ShiftSerializers,RegisteredRecordSerializers
+from HospitalBusiness.models import Department,Shift,RegisteredRecord,Payment,Report
+from HospitalBusiness.serializers import DepartmentSerializers,ShiftSerializers,RegisteredRecordSerializers,PaymentSerializers,ReportSerializers
 from PersonnelManagement.models import DoctorInformation,PatientInformation,VisitCard
 from django.http import HttpResponse
 import json
@@ -54,5 +54,31 @@ def get_registered_record(request):
 
 	if request.method == 'GET':
 		serializer = RegisteredRecordSerializers(registered_record, many=True)
+		return Response(serializer.data)
+
+@api_view(['GET'])
+def get_payment(request):
+	visit_cardid = request.GET.get('visit_cardid')
+
+	visit_card_obj = VisitCard.objects.get(id = visit_cardid)
+
+	payment = Payment.objects.filter(visit_card = visit_card_obj)
+
+	if request.method == 'GET':
+		serializer = PaymentSerializers(payment, many=True)
+		return Response(serializer.data)
+
+@api_view(['GET'])
+def get_report(request):
+	visit_cardid = request.GET.get('visit_cardid')
+
+	visit_card_obj = VisitCard.objects.get(id = visit_cardid)
+
+	print(visit_card_obj,123123123123)
+
+	report = Report.objects.filter(visit_card = visit_card_obj)
+
+	if request.method == 'GET':
+		serializer = ReportSerializers(report, many=True)
 		return Response(serializer.data)
 	

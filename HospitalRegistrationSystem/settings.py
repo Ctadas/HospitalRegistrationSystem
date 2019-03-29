@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+	'suit',
 	'django.contrib.admin',
 	'django.contrib.auth',
 	'django.contrib.contenttypes',
@@ -114,10 +115,12 @@ TIME_ZONE = 'Asia/Shanghai'
 
 USE_I18N = True
 
-USE_L10N = True
+USE_L10N = False
 
-USE_TZ = True
+USE_TZ = False
 
+DATETIME_FORMAT = 'Y-m-d H:i:s' 
+DATE_FORMAT = 'Y-m-d'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
@@ -130,3 +133,23 @@ STATICFILES_DIRS = ( STATIC_PATH, )
 MEDIA_ROOT = os.path.join(STATIC_PATH, 'media')
 
 MEDIA_URL = STATIC_URL +'media/'
+
+SUIT_CONFIG = {  # suit页面配置
+	'ADMIN_NAME': '医院业务管理系统',  #登录界面提示
+	'LIST_PER_PAGE': 20,
+	'MENU': (
+		{	
+			'label':'医院业务管理',
+			'app':'hospitalbusiness',
+		},
+		{	
+			'label':'人员管理',
+			'app':'personnelmanagement',
+		},
+		{	
+			'label':'新闻发布管理',
+			'app':'news',
+		},
+	),
+	# label表示name，app表示上边的install的app，models表示用了哪些models
+}

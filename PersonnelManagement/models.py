@@ -17,7 +17,7 @@ def upload_to(instance, filename):
 class VisitCard(models.Model):
 	real_name = models.CharField(verbose_name='真实姓名',max_length=50)
 	id_card = models.CharField(verbose_name='身份证号码',max_length=18)
-	id_type = models.CharField(verbose_name='身份证类型',max_length=5)
+	id_type = models.CharField(verbose_name='证件类型',max_length=5)
 	telphone = models.BigIntegerField(verbose_name='手机号码')
 
 	def __str__(self):

@@ -7,7 +7,7 @@ class News(models.Model):
 	content = models.TextField(verbose_name='新闻内容',max_length=5000)
 	image = models.ImageField(verbose_name='新闻图片',upload_to='news/%Y/%m/%d/')
 	source = models.CharField(verbose_name='新闻来源',max_length=50)
-	release_time = models.DateField(auto_now_add = True)
+	release_time = models.DateField(verbose_name='发布时间',auto_now_add = True)
 
 	def __str__(self):
 		return self.title 
