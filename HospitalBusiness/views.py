@@ -11,6 +11,7 @@ from django.http import HttpResponse
 import json
 # Create your views here.
 
+#获取医院部门信息
 @api_view(['GET'])
 def get_department_info(request):
 	departmen = Department.objects.all()
@@ -18,6 +19,7 @@ def get_department_info(request):
 		serializer = DepartmentSerializers(departmen, many=True)
 		return Response(serializer.data)
 
+#获取值班信息
 @api_view(['GET'])
 def get_shift(request):
 	visit_date = request.GET.get('visit_date')
@@ -26,6 +28,7 @@ def get_shift(request):
 		serializer = ShiftSerializers(shift, many=True)
 		return Response(serializer.data)
 
+#新增挂号记录
 @api_view(['POST'])
 def commit_registered_record(request):
 	if request.method == 'POST':
@@ -41,9 +44,15 @@ def commit_registered_record(request):
 		visit_card = VisitCard.objects.get(id = visitcard_id)
 		doctors = DoctorInformation.objects.get(id = doctor_id)
 		wx_id = PatientInformation.objects.get(openid = openid)
-		r = RegisteredRecord.objects.create(department = department, registered_date= registered_date,visit_card=visit_card,doctors= doctors)
+		r = RegisteredRecord.objects.create(
+			department = department, 
+			registered_date= registered_date,
+			visit_card=visit_card,
+			doctors= doctors
+			)
 		return Response(1)
 
+#获取挂号记录
 @api_view(['GET'])
 def get_registered_record(request):
 	visit_cardid = request.GET.get('visit_cardid')
@@ -56,6 +65,7 @@ def get_registered_record(request):
 		serializer = RegisteredRecordSerializers(registered_record, many=True)
 		return Response(serializer.data)
 
+#获取缴费内容
 @api_view(['GET'])
 def get_payment(request):
 	visit_cardid = request.GET.get('visit_cardid')
@@ -68,13 +78,12 @@ def get_payment(request):
 		serializer = PaymentSerializers(payment, many=True)
 		return Response(serializer.data)
 
+#获取就诊报告
 @api_view(['GET'])
 def get_report(request):
 	visit_cardid = request.GET.get('visit_cardid')
 
 	visit_card_obj = VisitCard.objects.get(id = visit_cardid)
-
-	print(visit_card_obj,123123123123)
 
 	report = Report.objects.filter(visit_card = visit_card_obj)
 

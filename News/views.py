@@ -6,7 +6,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from django.conf import settings
 # Create your views here.
-
+#获取新闻列表
 @api_view(['GET'])
 def news_list(request):
 	if request.method == 'GET':
@@ -14,6 +14,7 @@ def news_list(request):
 		serializer = NewsSerializers(news, many=True)
 		return Response(serializer.data)
 
+#获取新闻轮播
 @api_view(['GET'])
 def carousel_map_list(request):
 	if request.method == 'GET':
@@ -21,6 +22,7 @@ def carousel_map_list(request):
 		serializer = CarouselMapSerializers(carousel_map, many=True)
 		return Response(serializer.data)
 
+#获取新闻详细内容
 @api_view(['GET'])
 def get_news(request):
 	news_id = request.GET.get('id')

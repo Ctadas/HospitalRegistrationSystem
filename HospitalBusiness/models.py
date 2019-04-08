@@ -82,9 +82,10 @@ class PaymentItem(models.Model):
 		verbose_name = '缴费项目管理'
 		verbose_name_plural = "缴费项目管理"
 
+#患者缴费管理
 class Payment(models.Model):
 	visit_card = models.ForeignKey(VisitCard,on_delete=models.CASCADE,verbose_name="患者就诊卡")
-	payment_item = models.ManyToManyField(PaymentItem)
+	payment_item = models.ManyToManyField(PaymentItem,verbose_name="缴费项目")
 
 	def __str__(self):
 		return self.visit_card.real_name  
@@ -102,6 +103,7 @@ class Payment(models.Model):
 		visit_card_dict['telphone'] = self.visit_card.telphone
 		return visit_card_dict
 
+#就诊报告管理
 class Report(models.Model):
 	visit_card = models.ForeignKey(VisitCard,on_delete=models.CASCADE,verbose_name="患者就诊卡")
 	report_content = models.TextField(verbose_name='报告内容',max_length=500)
