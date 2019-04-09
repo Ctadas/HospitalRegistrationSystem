@@ -45,7 +45,7 @@ class DoctorInformation(models.Model):
 class PatientInformation(models.Model):
 	openid = models.CharField(verbose_name='用户唯一标识',max_length=50)
 	session_key = models.CharField(verbose_name='会话秘钥',max_length=50)
-	visit_card = models.ManyToManyField(verbose_name='绑定就诊卡',VisitCard,blank=True)
+	visit_card = models.ManyToManyField(VisitCard,blank=True,verbose_name='绑定就诊卡')
 
 	def __str__(self):
 		return self.openid 
