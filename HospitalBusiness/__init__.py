@@ -1,15 +1,1 @@
-from django.apps import AppConfig
-import os
- 
-default_app_config = 'HospitalBusiness.PrimaryBlogConfig'
- 
-VERBOSE_APP_NAME = '医院业务管理'
- 
- 
-def get_current_app_name(_file):
-	return os.path.split(os.path.dirname(_file))[-1]
- 
- 
-class PrimaryBlogConfig(AppConfig):
-	name = get_current_app_name(__file__)
-	verbose_name = VERBOSE_APP_NAME
+default_app_config = 'HospitalBusiness.apps.HospitalbusinessConfig'
