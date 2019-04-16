@@ -1,7 +1,15 @@
 from django.contrib import admin
-from HospitalBusiness.models import DepartmentClassification,Department,Shift,RegisteredRecord,PaymentItem,Payment,Report
+from HospitalBusiness.models import DepartmentClassification,Department,Shift,RegisteredRecord,PaymentItem,Payment,Report,DoctorVisitsNumber
 
 # Register your models here.
+class DoctorVisitsNumberAdmin(admin.ModelAdmin):
+	list_display=('id','doctor','visit_time','visit_number')
+
+	list_display_links = ('id','doctor','visit_time','visit_number')
+
+	#多对多字段编辑
+	filter_horizontal=('association_registered_record',)
+
 class DepartmentClassificationAdmin(admin.ModelAdmin):
 	list_display=('id','name',)
 
@@ -102,3 +110,4 @@ admin.site.register(RegisteredRecord, RegisteredRecordAdmin)
 admin.site.register(Payment, PaymentAdmin)
 admin.site.register(PaymentItem, PaymentItemAdmin)
 admin.site.register(Report, ReportAdmin)
+admin.site.register(DoctorVisitsNumber, DoctorVisitsNumberAdmin)

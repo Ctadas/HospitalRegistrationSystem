@@ -36,7 +36,7 @@ class DoctorInformation(models.Model):
 
 	def __str__(self):
 		return self.name 
-
+		
 	class Meta:
 		verbose_name = '医生信息管理'
 		verbose_name_plural = "医生信息管理"

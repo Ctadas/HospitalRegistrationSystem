@@ -4,7 +4,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.parsers import JSONParser
 from rest_framework.renderers import JSONRenderer
-from HospitalBusiness.models import Department,Shift,RegisteredRecord,Payment,Report
+from HospitalBusiness.models import Department,Shift,RegisteredRecord,Payment,Report,DoctorVisitsNumber
 from HospitalBusiness.serializers import DepartmentSerializers,ShiftSerializers,RegisteredRecordSerializers,PaymentSerializers,ReportSerializers
 from PersonnelManagement.models import DoctorInformation,PatientInformation,VisitCard
 from django.http import HttpResponse
@@ -50,6 +50,11 @@ def commit_registered_record(request):
 			visit_card=visit_card,
 			doctors= doctors
 			)
+		visit_number = DoctorVisitsNumber.objects.get(doctor = doctors,visit_time = registered_date)
+		visit_number.visit_number = visit_number.visit_number - 1
+		visit_number.association_registered_record.add(r)
+		visit_number.save()
+
 		return Response(1)
 
 #获取挂号记录
@@ -59,7 +64,7 @@ def get_registered_record(request):
 
 	visit_card_obj = VisitCard.objects.get(id = visit_cardid)
 
-	registered_record = RegisteredRecord.objects.filter(visit_card = visit_card_obj)
+	registered_record = RegisteredRecord.objects.filter(visit_card = visit_card_obj).order_by('-submission_time')
 
 	if request.method == 'GET':
 		serializer = RegisteredRecordSerializers(registered_record, many=True)
@@ -85,9 +90,21 @@ def get_report(request):
 
 	visit_card_obj = VisitCard.objects.get(id = visit_cardid)
 
-	report = Report.objects.filter(visit_card = visit_card_obj)
+	report = Report.objects.filter(visit_card = visit_card_obj).order_by('-submission_time')
 
 	if request.method == 'GET':
 		serializer = ReportSerializers(report, many=True)
 		return Response(serializer.data)
-	
+
+@api_view(['GET'])
+def get_doctor_visits_number(request):
+	id_list = request.GET.get('id_list')
+	visit_time = request.GET.get('visit_time')
+	id_list = json.loads(id_list)
+	visit_number = {}
+
+	for doctor_id in id_list:
+		doctor = DoctorInformation.objects.get(id = doctor_id)
+		doctor_visits_number = DoctorVisitsNumber.objects.get(doctor = doctor,visit_time = visit_time)
+		visit_number[doctor_visits_number.doctor.id] = doctor_visits_number.visit_number
+	return Response(visit_number)

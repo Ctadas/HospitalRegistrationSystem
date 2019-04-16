@@ -9,4 +9,5 @@ urlpatterns = [
 	path('get_registered_record/', views.get_registered_record,name = 'get_registered_record'),
 	path('get_payment/', views.get_payment,name = 'get_payment'),
 	path('get_report/', views.get_report,name = 'get_report'),
+	path('get_doctor_visits_number/', views.get_doctor_visits_number,name = 'get_doctor_visits_number'),
 ]
